@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["customer", "admin"] },
+        "walletBalance": { "type": "number" }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "A service offered by the business",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "bookingCount": { "type": "number" },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string", "enum": ["short_answer", "multiple_choice"] },
+              "label": { "type": "string" },
+              "options": { "type": "array", "items": { "type": "string" } },
+              "required": { "type": "boolean" }
+            }
+          }
+        }
+      },
+      "required": ["id", "name", "price", "category"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "A customer booking record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique booking ID" },
+        "items": { "type": "array", "description": "List of services in the cart" },
+        "totalPrice": { "type": "number", "description": "Total amount paid" },
+        "timestamp": { "type": "number", "description": "Creation timestamp" },
+        "customerName": { "type": "string", "description": "Full name of the customer" },
+        "customerPhone": { "type": "string", "description": "Contact number" },
+        "serviceDate": { "type": "string", "description": "Date of service" },
+        "serviceTime": { "type": "string", "description": "Time of service" },
+        "paymentMethod": { "type": "string", "enum": ["Credit Card", "Apple Pay", "Pay on Site", "Wallet"] },
+        "status": { "type": "string", "enum": ["Pending", "Confirmed", "Completed", "Cancelled"] },
+        "serviceAnswers": { "type": "array", "description": "Answers to service-specific questions" },
+        "userId": { "type": "string", "description": "ID of the customer who booked" }
+      },
+      "required": ["id", "items", "totalPrice", "timestamp", "customerName", "customerPhone", "serviceDate", "serviceTime", "paymentMethod", "status", "userId"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "A service category",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" }
+      },
+      "required": ["name"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/services/{serviceId}": {
+      "schema": "Service",
+      "description": "Available services"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Customer bookings"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Service categories"
+    }
+  }
+}

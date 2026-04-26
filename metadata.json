@@ -1,0 +1,7 @@
+{
+  "name": "ServicePoint",
+  "description": "A premium service booking ecosystem for Saudi Arabia. Features real-time scheduling, integrated digital wallet, and an advanced administrative dashboard.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
